@@ -1,0 +1,70 @@
+# === Build artifacts ===
+dist/
+build/
+lib/
+*.tsbuildinfo
+
+# === Dependencies ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+
+# === Test coverage ===
+coverage/
+.nyc_output/
+*.lcov
+
+# === Environment files ===
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === OS generated files ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# === Editor directories and files ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === Logs ===
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# === Temporary files ===
+tmp/
+temp/
+*.tmp
+*.temp
+
+# === Runtime data ===
+.cache/
+.parcel-cache/
+
+# === Backup files ===
+*.bak
+*.backup
+*.old
+
+# === Documentation build ===
+docs/build/
+
+# === Optional: Lock files (se usi npm) ===
+# package-lock.json  # Rimuovi il commento se usi solo

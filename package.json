@@ -1,0 +1,72 @@
+{
+  "name": "italian-cap-comuni-province",
+  "version": "1.0.0",
+  "description": "🇮🇹 Complete TypeScript library for Italian locations: municipalities, provinces, postal codes with advanced search and autocomplete",
+  "keywords": [
+    "italy",
+    "italian",
+    "locations",
+    "municipalities",
+    "comuni",
+    "provinces",
+    "postal-codes",
+    "cap",
+    "geocoding",
+    "search",
+    "autocomplete",
+    "typescript"
+  ],
+  "author": "SpritzCoder <spritzcoder@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spritzcoder/italian-cap-comuni-province.git"
+  },
+  "bugs": {
+    "url": "https://github.com/spritzcoder/italian-cap-comuni-province/issues"
+  },
+  "homepage": "https://github.com/spritzcoder/italian-cap-comuni-province#readme",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@types/node": "^20.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "eslint": "^9.37.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
