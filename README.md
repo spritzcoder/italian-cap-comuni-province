@@ -1,4 +1,4 @@
-# Italian Locations
+# Italian CAP Comuni Province
 
 🇮🇹 **Complete TypeScript library for Italian locations: municipalities, provinces, postal codes with advanced search and autocomplete**
 
