@@ -456,15 +456,6 @@ The underlying data is regularly updated from official ISTAT sources. New versio
 
 ## 📝 Changelog
 
-v1.1.0 - Form Helpers Release
-
-- ✨ Added getComuniUniqueByProvincia() for duplicate-free commune lists
-- ✨ Added getCapsByComune() to get all postal codes for a commune
-- ✨ Added getCapsByComuneNome() to handle commune name lookups
-- ✨ Added getComuneWithAllCaps() for complete commune data
-- 📚 Updated documentation with form integration examples
-- 🧪 Added comprehensive tests for all new functions
-
 v1.0.0 - Initial Release
 
 - 🎉 First stable release with complete Italian locations data
