@@ -37,6 +37,7 @@ import {
  * Classe principale per la gestione completa di regioni, province e comuni italiani
  */
 class ComuniItaliani {
+  private readonly PROVINCIA_AUTONOMA = 'Provincia autonoma';
   private regioni: Regione[] = [];
   private province: Provincia[] = [];
   private comuni: Comune[] = [];
@@ -75,7 +76,7 @@ class ComuniItaliani {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
       throw new Error(
-        `Impossibile caricare i dati geografici italiani: ${errorMessage}`
+        `Impossibile caricare i dati geografici italiani: ${errorMessage}`,
       );
     }
   }
@@ -90,7 +91,7 @@ class ComuniItaliani {
     for (const provincia of this.province) {
       this.provinceByCode.set(
         provincia.codiceRegione + provincia.sigla,
-        provincia
+        provincia,
       );
       this.provinceBySignla.set(provincia.sigla.toLowerCase(), provincia);
     }
@@ -130,14 +131,14 @@ class ComuniItaliani {
 
   searchRegioni(
     query: string,
-    options?: SearchOptions
+    options?: SearchOptions,
   ): SearchResult<Regione>[] {
     return searchRegioniUtil(this.regioni, query, options);
   }
 
   searchProvince(
     query: string,
-    options?: SearchOptions
+    options?: SearchOptions,
   ): SearchResult<Provincia>[] {
     return searchProvinceUtil(this.province, query, options);
   }
@@ -175,7 +176,7 @@ class ComuniItaliani {
   searchComuniWithFilters(
     query: string,
     filters: SearchFilters,
-    options?: SearchOptions
+    options?: SearchOptions,
   ): SearchResult<Comune>[] {
     return searchComuniWithFiltersUtil(this.comuni, query, filters, options);
   }
@@ -201,7 +202,7 @@ class ComuniItaliani {
 
   getAllRipartizioni(): string[] {
     const ripartizioni = new Set(
-      this.regioni.map((r) => r.ripartizioneGeografica)
+      this.regioni.map((r) => r.ripartizioneGeografica),
     );
     return Array.from(ripartizioni).sort();
   }
@@ -217,7 +218,7 @@ class ComuniItaliani {
   getStats(): StatsCompleto {
     const superficieTotale = this.regioni.reduce(
       (sum, r) => sum + r.superficie,
-      0
+      0,
     );
 
     return {
@@ -255,15 +256,51 @@ class ComuniItaliani {
   }
 
   getCapsByComuneNome(
-    nomeComune: string
+    nomeComune: string,
   ): { comune: Comune; caps: string[] }[] {
     return getCapsByComuneNomeUtil(nomeComune);
   }
 
   getComuneWithAllCaps(
-    codiceIstat: string
+    codiceIstat: string,
   ): { comune: Comune; caps: string[] } | null {
     return getComuneWithAllCapsUtil(codiceIstat);
+  }
+
+  getProvinceAutonome(): Provincia[] {
+    return this.province
+      .filter((p) => p.tipologia === this.PROVINCIA_AUTONOMA)
+      .sort((a, b) => a.nome.localeCompare(b.nome));
+  }
+
+  getRegioniAndProvinceAutonome(): Array<{
+    codice: string;
+    nome: string;
+    sigla?: string;
+    tipo: 'regione' | 'provincia_autonoma';
+    codiceRegione: string;
+  }> {
+    const provinceAutonome = this.province
+      .filter((p) => p.tipologia === this.PROVINCIA_AUTONOMA)
+      .map((p) => ({
+        codice: p.sigla, // BZ, TN
+        nome: p.nome,
+        sigla: p.sigla,
+        tipo: 'provincia_autonoma' as const,
+        codiceRegione: p.codiceRegione,
+      }));
+
+    const regioni = this.regioni.map((r) => ({
+      codice: r.codiceRegione,
+      nome: r.nome,
+      tipo: 'regione' as const,
+      codiceRegione: r.codiceRegione,
+    }));
+
+    // Combina e ordina alfabeticamente per nome
+    return [...regioni, ...provinceAutonome].sort((a, b) =>
+      a.nome.localeCompare(b.nome),
+    );
   }
 }
 
@@ -313,6 +350,10 @@ export const getCapsByComuneNome =
   comuniItaliani.getCapsByComuneNome.bind(comuniItaliani);
 export const getComuneWithAllCaps =
   comuniItaliani.getComuneWithAllCaps.bind(comuniItaliani);
+export const getProvinceAutonome =
+  comuniItaliani.getProvinceAutonome.bind(comuniItaliani);
+export const getRegioniAndProvinceAutonome =
+  comuniItaliani.getRegioniAndProvinceAutonome.bind(comuniItaliani);
 export { isValidCAP };
 
 // Export tipi

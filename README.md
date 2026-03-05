@@ -71,7 +71,7 @@ const filteredResults = searchComuniWithFilters(
     regione: 'Lombardia',
     provincia: 'Milano',
   },
-  { limit: 5 }
+  { limit: 5 },
 );
 ```
 
@@ -142,7 +142,7 @@ results.forEach((result) => {
   console.log(
     `${result.comune.nome} (${
       result.comune.siglaProvincia
-    }): ${result.caps.join(', ')}`
+    }): ${result.caps.join(', ')}`,
   );
 });
 
@@ -150,7 +150,7 @@ results.forEach((result) => {
 const communeData = getComuneWithAllCaps('015146');
 if (communeData) {
   console.log(
-    `${communeData.comune.nome} has ${communeData.caps.length} postal codes`
+    `${communeData.comune.nome} has ${communeData.caps.length} postal codes`,
   );
 }
 ```
@@ -366,12 +366,12 @@ const province: Provincia[] = getProvinceByRegione(regione.nome);
 const comuni: Comune[] = getComuniByProvincia(province[0].sigla);
 
 console.log(
-  `${regione.nome} has ${regione.numeroProvince} provinces and ${regione.numeroComuni} municipalities`
+  `${regione.nome} has ${regione.numeroProvince} provinces and ${regione.numeroComuni} municipalities`,
 );
 
 const regionePuglia: Regione = getRegioneByCode('16');
 const provincePuglia: Provincia[] = getProvinceByCodeRegione(
-  regionePuglia.codiceRegione
+  regionePuglia.codiceRegione,
 );
 
 console.log(`${regionePuglia.nome} has ${regionePuglia.numeroProvince}`);
@@ -442,8 +442,6 @@ The database includes:
 - ✅ **Free**: Released under MIT license
 - ✅ **Reliable**: Used by professionals and developers
 
-**Last Update**: June 30, 2025
-
 ## 🙏 Credits
 
 Special thanks to **[Garda Informatica](https://www.gardainformatica.it/)** for providing and maintaining this comprehensive, free, and always up-to-date database of Italian municipalities. Their automated procedures ensure the data stays current with official ISTAT sources.
@@ -455,6 +453,11 @@ Visit their website: [https://www.gardainformatica.it/database-comuni-italiani](
 The underlying data is regularly updated from official ISTAT sources. New versions of this library are released when significant administrative changes occur (new municipalities, province modifications, etc.).
 
 ## 📝 Changelog
+
+v1.1.0 - Province autonome and data updated
+
+- Data update to 2026-31-01
+- Added getRegioniAndProvinceAutonome and getProvinceAutonome functions
 
 v1.0.0 - Initial Release
 

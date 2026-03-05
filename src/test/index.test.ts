@@ -1,24 +1,26 @@
-import { describe, it, expect, beforeAll } from 'vitest';
-import comuniItaliani, {
-  searchComuni,
-  searchProvince,
-  searchRegioni,
+import { beforeAll, describe, expect, it } from 'vitest';
+import {
+  getAllComuni,
+  getAllProvince,
+  getAllRegioni,
+  getCapoluoghi,
   getComuneByIstat,
   getComuniByCAP,
   getComuniByProvincia,
   getComuniByRegione,
+  getProvinceAutonome,
+  getProvinceByCodeRegione,
+  getProvinceByRegione,
   getProvinciaBySigla,
   getRegioneByCode,
-  getCapoluoghi,
-  getAllRegioni,
-  getAllProvince,
-  getAllComuni,
+  getRegioniAndProvinceAutonome,
+  getStats,
   getSuggestions,
   isValidCAP,
-  getStats,
+  searchComuni,
   searchComuniWithFilters,
-  getProvinceByRegione,
-  getProvinceByCodeRegione,
+  searchProvince,
+  searchRegioni,
 } from '../index';
 
 describe('ComuniItaliani - Test Suite Completa', () => {
@@ -110,6 +112,26 @@ describe('ComuniItaliani - Test Suite Completa', () => {
     });
   });
 
+  describe('Province autonome', () => {
+    it('Restituisce province autonome', () => {
+      const pvAutonome = getProvinceAutonome();
+      expect(pvAutonome.length).toBe(2);
+    });
+  });
+
+  describe('Regioni e Province autonome', () => {
+    it('Restiuisce regioni e province autonome', () => {
+      const regioniAndPvAutonome = getRegioniAndProvinceAutonome();
+      let countPvAutonome = 0;
+
+      regioniAndPvAutonome.forEach((reg) => {
+        if (reg.tipo === 'provincia_autonoma') countPvAutonome++;
+      });
+
+      expect(countPvAutonome).toBe(2);
+    });
+  });
+
   describe('Ricerca Province', () => {
     it('dovrebbe trovare province per sigla', () => {
       const risultati = searchProvince('MI', { exactMatch: true });
@@ -164,7 +186,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
       // Il primo risultato dovrebbe avere score più alto
       for (let i = 1; i < risultati.length; i++) {
         expect(risultati[i - 1].score).toBeGreaterThanOrEqual(
-          risultati[i].score
+          risultati[i].score,
         );
       }
     });
@@ -352,7 +374,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
         {
           regione: 'Lombardia',
         },
-        { limit: 10 }
+        { limit: 10 },
       );
 
       risultati.forEach((r) => {
@@ -367,7 +389,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
         {
           provincia: 'MI',
         },
-        { limit: 5 }
+        { limit: 5 },
       );
 
       risultati.forEach((r) => {
@@ -382,7 +404,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
         {
           soloCapoluoghi: true,
         },
-        { limit: 10 }
+        { limit: 10 },
       );
 
       risultati.forEach((r) => {
@@ -397,7 +419,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
           regione: 'Lombardia',
           soloCapoluoghi: true,
         },
-        { limit: 5 }
+        { limit: 5 },
       );
 
       risultati.forEach((r) => {
@@ -432,7 +454,7 @@ describe('ComuniItaliani - Test Suite Completa', () => {
       // Verifica ordine alfabetico
       for (let i = 1; i < regioni.length; i++) {
         expect(
-          regioni[i - 1].nome.localeCompare(regioni[i].nome)
+          regioni[i - 1].nome.localeCompare(regioni[i].nome),
         ).toBeLessThanOrEqual(0);
       }
 
