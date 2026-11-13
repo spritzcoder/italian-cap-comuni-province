@@ -43,30 +43,50 @@
   ],
   "scripts": {
     "build": "tsup",
-    "build:watch": "tsup --watch",
-    "dev": "tsup --watch",
+    "build:watch": "tsup --watch src --watch scripts/data",
+    "dev": "tsup --watch src --watch scripts/data",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build && npm run test",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "audit": "npm audit --include=dev",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "data:build": "node scripts/data/build.mjs",
+    "data:verify": "node scripts/data/cli.mjs verify",
+    "data:check": "node scripts/data/cli.mjs check",
+    "data:update": "node scripts/data/cli.mjs update",
+    "pretest": "npm run data:build",
+    "pretype-check": "npm run data:build",
+    "prepack": "npm run build",
+    "benchmark": "node scripts/benchmark.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "pretest:coverage": "npm run data:build",
+    "test:build": "node scripts/test-build.mjs",
+    "pretest:watch": "npm run data:build",
+    "pretest:ui": "npm run data:build"
   },
   "engines": {
     "node": ">=18"
   },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
-    "@types/node": "^20.14.0",
+    "@types/node": "^22.20.5",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@typescript-eslint/parser": "^8.45.0",
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^5.1.0",
     "eslint": "^9.37.0",
-    "tsup": "^8.1.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }
