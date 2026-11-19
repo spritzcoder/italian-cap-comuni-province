@@ -454,7 +454,7 @@ The underlying data is regularly updated from official ISTAT sources. New versio
 
 ## 📝 Changelog
 
-v1.1.2 - Province autonome and data updated
+v1.1.3 - Province autonome and data updated
 
 - Data update to 2026-11-06
 
