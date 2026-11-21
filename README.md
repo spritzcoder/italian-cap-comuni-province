@@ -7,7 +7,7 @@ A lightweight, performant TypeScript library providing access to all Italian mun
 ## ✨ Features
 
 - 🚀 **High Performance**: Optimized searches with in-memory indices (O(1) lookups)
-- 📦 **Tree-shakable**: Import only what you need
+- 📦 **Lightweight CAP Entry**: Check postal-code membership without loading full geographic records
 - 🔍 **Smart Search**: Advanced algorithms with relevance scoring (Jaro-Winkler similarity)
 - 🎯 **TypeScript Native**: Full type safety and IntelliSense support
 - 📱 **Zero Dependencies**: No external libraries required
@@ -20,14 +20,47 @@ A lightweight, performant TypeScript library providing access to all Italian mun
 ## 📦 Installation
 
 ```bash
-npm install italian-cap-comuni-province
+npm install italian-cap-comuni-province@latest
 # or
-yarn add italian-cap-comuni-province
+yarn add italian-cap-comuni-province@latest
 # or
-pnpm add italian-cap-comuni-province
+pnpm add italian-cap-comuni-province@latest
 ```
 
 ## 🚀 Quick Start
+
+### Postal-code membership in browser forms
+
+Use the dedicated `/cap` entry when a form only needs to check whether a CAP
+exists in the bundled dataset:
+
+```typescript
+import { hasCAP } from 'italian-cap-comuni-province/cap';
+
+hasCAP('00118'); // true
+hasCAP(' 00118 '); // true: surrounding whitespace is trimmed
+hasCAP('99999'); // false
+hasCAP('118'); // false: leading zeros must be preserved
+```
+
+This entry contains only a generated, sorted list of unique postal codes and a
+membership lookup. It works offline and does not import municipality, province or
+region records, or initialize the root entry's geographic indices. CommonJS
+consumers can use `require('italian-cap-comuni-province/cap')`.
+
+`hasCAP` checks dataset membership. The existing root `isValidCAP` checks the
+format and numeric range; neither API determines a business's service coverage.
+Historical or generic CAPs absent from the source data, such as `00100` and
+`20100`, return `false` from `hasCAP`. Applications that accept them should keep
+their own compatibility rules and coverage checks.
+
+See [browser bundle measurements](docs/browser-bundles.md) for the motivation,
+reproduction command and bundle-size budgets.
+
+### Full geographic API
+
+Use the root entry when municipality, province, region or search results are
+needed. Its existing API and initialization behavior remain unchanged.
 
 ```typescript
 import {
@@ -420,7 +453,9 @@ getSuggestions(query, limit); // Get autocomplete suggestions
 - **Search speed**: O(1) for CAP and ISTAT codes, O(n) optimized for names
 - **Benchmarks**: [Measured before/after results, methodology and limitations](docs/benchmarks.md).
   Reproduce measurements with `node scripts/benchmark.mjs` (see [dataset maintenance](docs/datasets.md)).
-- **Tree-shaking**: Full support, import only used functions
+- **Browser imports**: `/cap` isolates postal-code membership. A named import from
+  the root entry still initializes the full geographic dataset and indices.
+- **CAP bundle**: [Reproducible browser measurements and regression budgets](docs/browser-bundles.md).
 
 ## 📊 Data Source
 
@@ -452,8 +487,8 @@ Visit their website: [https://www.gardainformatica.it/database-comuni-italiani](
 ## 🔄 Data Updates
 
 The original Garda Informatica JSON files in `src/data` are the source of truth.
-Builds generate lossless tabular runtime assets locally; builds, tests and installs
-never download datasets.
+Builds generate lossless tabular runtime assets and the compact CAP list locally;
+builds, tests and installs never download datasets.
 
 ```bash
 npm run data:check                    # Compare the latest official archive without writing
@@ -507,7 +542,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for build, tes
 - [Repository](https://github.com/spritzcoder/italian-cap-comuni-province)
 - [NPM Package](https://npmjs.com/package/italian-cap-comuni-province)
 - [Data Source](https://www.gardainformatica.it/database-comuni-italiani)
-- [Issues](https://github.com/yourusername/italian-cap-comuni-province/issues)
+- [Issues](https://github.com/spritzcoder/italian-cap-comuni-province/issues)
 
 ---
 

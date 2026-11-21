@@ -29,10 +29,16 @@ is limited to this development dependency; parser integration tests exercise
 project-service allowlist matching, including hidden files and rejected paths.
 Remove it when typescript-eslint declares a compatible patched dependency.
 
-The build and tests generate local runtime tables automatically from the original
-JSON files in `src/data`. Do not commit `src/generated`, `dist`, ZIP archives or
-local benchmark/report artifacts. Do not change geographic data as part of a
-format-only optimization.
+The build and tests generate local runtime tables and the compact CAP list
+automatically from the original JSON files in `src/data`. Do not commit
+`src/generated`, `dist`, ZIP archives or local benchmark/report artifacts. Do not
+change geographic data as part of a format-only optimization.
+
+`npm run test:package` installs the actual tarball and checks `/cap` in native
+CommonJS, ESM, TypeScript and a browser bundle. It rejects full geographic assets
+in that bundle and enforces limits of 45,000 minified bytes and 14,000 gzip bytes.
+Build/watch tests also check CAP regeneration after source changes. See
+[browser bundle measurements](docs/browser-bundles.md) for the methodology.
 
 See [Dataset maintenance](docs/datasets.md) for source discovery, offline import,
 dry-run reports, checksum verification, generation, workflow proposals, rollback
