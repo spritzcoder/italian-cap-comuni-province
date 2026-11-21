@@ -469,6 +469,12 @@ review updates and publish through the usual release process.
 
 ## 📝 Changelog
 
+v1.1.4 - Package and data maintenance improvements
+
+- Reduce package size with generated tabular datasets while preserving the public API
+- Add a validated, maintainer-reviewed Garda data update workflow
+- Improve autonomous-province category handling and native ESM compatibility
+
 v1.1.3 - Province autonome and data updated
 
 - Data update to 2026-11-06
