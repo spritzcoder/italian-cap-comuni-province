@@ -1,0 +1,25 @@
+{
+  "sourcePage": "https://www.gardainformatica.it/database-comuni-italiani",
+  "archiveUrl": null,
+  "sourceDate": "2026-11-06",
+  "acquiredAt": null,
+  "archiveSha256": null,
+  "note": "Dataset update dated 2026-11-06 per README changelog; original archive and acquisition details are unavailable.",
+  "datasets": {
+    "gi_comuni_cap": {
+      "sha256": "f8a9f437f145b75145c9b88ddf74905f8c5c3bc1028ac44fb68ea3636537a290",
+      "records": 8458,
+      "bytes": 5590637
+    },
+    "gi_province": {
+      "sha256": "397f154b8253d84b6bf16a9d3289dfbe5abdb5caf85628884907f7158bfe3904",
+      "records": 110,
+      "bytes": 30828
+    },
+    "gi_regioni": {
+      "sha256": "f4b99794169f7051c3f99776417e91389313e7a7bda181a7a16c5a8900065eda",
+      "records": 20,
+      "bytes": 5804
+    }
+  }
+}
