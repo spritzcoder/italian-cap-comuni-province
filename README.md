@@ -469,6 +469,10 @@ review updates and publish through the usual release process.
 
 ## 📝 Changelog
 
+v1.1.3 - Province autonome and data updated
+
+- Data update to 2026-11-06
+
 v1.1.1 - Province autonome and data updated
 
 - Data update to 2026-08-21

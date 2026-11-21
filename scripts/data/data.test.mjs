@@ -12,6 +12,7 @@ import { compareDatasets, formatReport } from './report.mjs';
 import { fixture, buffers, datasetZip, zip } from './test-helpers.mjs';
 
 const directories = [];
+const cliEnv = { ...process.env, NODE_OPTIONS: '' };
 const temp = () => { const path = mkdtempSync(join(tmpdir(), 'iccp-data-test-')); directories.push(path); return path; };
 const setup = (data = fixture()) => {
   const root = temp();
@@ -237,7 +238,7 @@ describe('Transactional updates and reports', () => {
       const table = JSON.parse(readFileSync(join(target, `${name}.json`)));
       expect(table.rows[0][table.columns.indexOf('tipologia_provincia')]).toBe('provincia autonoma');
     }
-    const child = spawnSync(process.execPath, [resolve('scripts/data/cli.mjs'), 'update', '--archive', archive], { cwd: root, encoding: 'utf8' });
+    const child = spawnSync(process.execPath, [resolve('scripts/data/cli.mjs'), 'update', '--archive', archive], { cwd: root, encoding: 'utf8', env: cliEnv });
     expect(child.status).toBe(0);
     expect(child.stderr).toBe('');
     expect(child.stdout).toContain('Result: no changes');
@@ -266,9 +267,9 @@ describe('Transactional updates and reports', () => {
     const { root, archive } = setup();
     const cli = resolve('scripts/data/cli.mjs');
     for (const args of [['verify'], ['check', '--archive', archive], ['update', '--archive', archive, '--dry-run', '--report', join(root, 'report.json')]]) {
-      const child = spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: 'utf8' });
+      const child = spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: 'utf8', env: cliEnv });
       expect(child.stderr).toBe(''); expect(child.status).toBe(0);
     }
-    for (const args of [['unknown'], ['verify', '--dry-run'], ['update', '--archive'], ['check', '--report', 'x'], ['update', '--bad']]) expect(spawnSync(process.execPath, [cli, ...args], { cwd: root }).status).toBe(1);
+    for (const args of [['unknown'], ['verify', '--dry-run'], ['update', '--archive'], ['check', '--report', 'x'], ['update', '--bad']]) expect(spawnSync(process.execPath, [cli, ...args], { cwd: root, env: cliEnv }).status).toBe(1);
   });
 });

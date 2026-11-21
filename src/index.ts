@@ -14,6 +14,7 @@ import type {
   StatsCompleto,
 } from './types';
 import { loadComuni, loadProvince, loadRegioni } from './utils/tabular';
+import { normalizeString } from './utils/normalize';
 import {
   searchComuni as searchComuniUtil,
   searchProvince as searchProvinceUtil,
@@ -260,7 +261,11 @@ class ComuniItaliani {
 
   getProvinceAutonome(): Provincia[] {
     return this.province
-      .filter((p) => p.tipologia.toLowerCase() === this.PROVINCIA_AUTONOMA)
+      .filter(
+        (p) =>
+          normalizeString(p.tipologia) ===
+          normalizeString(this.PROVINCIA_AUTONOMA),
+      )
       .sort((a, b) => a.nome.localeCompare(b.nome));
   }
 
@@ -272,7 +277,11 @@ class ComuniItaliani {
     codiceRegione: string;
   }> {
     const provinceAutonome = this.province
-      .filter((p) => p.tipologia.toLowerCase() === this.PROVINCIA_AUTONOMA)
+      .filter(
+      (p) =>
+        normalizeString(p.tipologia) ===
+        normalizeString(this.PROVINCIA_AUTONOMA),
+      )
       .map((p) => ({
         codice: p.sigla, // BZ, TN
         nome: p.nome,
